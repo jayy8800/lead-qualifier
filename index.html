@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram Lead Qualifier - Dubai Real Estate</title>
+    <title>Instagram Lead Qualifier</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -49,11 +49,11 @@
 
             if (clean.includes('official') || clean.includes('group') || clean.includes('team')) {
               score -= 2;
-              signals.push('⚠️ Company/team account (not individual)');
+              signals.push('⚠️ Company/team account');
             }
             if (clean.includes('_.') || clean.match(/\d{4,}/)) {
               score -= 1;
-              signals.push('⚠️ Generic/spam username pattern');
+              signals.push('⚠️ Generic username pattern');
             }
             if (clean.length < 5) {
               score -= 1;
@@ -131,155 +131,103 @@
           const mediumQuality = results.filter(r => r.quality === 'MEDIUM');
           const lowQuality = results.filter(r => r.quality === 'LOW');
 
-          return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
-              <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-8">
-                  <h1 className="text-4xl font-bold text-white mb-2">
-                    🎯 Instagram Lead Qualifier
-                  </h1>
-                  <p className="text-gray-400">
-                    AI-powered analysis for Dubai Real Estate Agents
-                  </p>
-                </div>
+          return React.createElement('div', { className: "min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6" },
+            React.createElement('div', { className: "max-w-6xl mx-auto" },
+              React.createElement('div', { className: "text-center mb-8" },
+                React.createElement('h1', { className: "text-4xl font-bold text-white mb-2" }, '🎯 Instagram Lead Qualifier'),
+                React.createElement('p', { className: "text-gray-400" }, 'AI-powered analysis for Dubai Real Estate Agents')
+              ),
+              
+              React.createElement('div', { className: "bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700" },
+                React.createElement('label', { className: "block text-white font-semibold mb-3" }, 'Enter Instagram Usernames (one per line):'),
+                React.createElement('textarea', {
+                  value: usernames,
+                  onChange: (e) => setUsernames(e.target.value),
+                  placeholder: "farooq_syd\ndubai_realtor_john\nproperty_expert_ae",
+                  className: "w-full h-40 bg-gray-900 text-white border border-gray-600 rounded-lg p-4 font-mono text-sm focus:outline-none focus:border-blue-500"
+                }),
+                
+                error && React.createElement('div', { className: "mt-3 p-3 bg-red-900/30 border border-red-500 rounded-lg text-red-400" }, error),
 
-                <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
-                  <label className="block text-white font-semibold mb-3">
-                    Enter Instagram Usernames (one per line):
-                  </label>
-                  <textarea
-                    value={usernames}
-                    onChange={(e) => setUsernames(e.target.value)}
-                    placeholder="farooq_syd&#10;dubai_realtor_john&#10;property_expert_ae"
-                    className="w-full h-40 bg-gray-900 text-white border border-gray-600 rounded-lg p-4 font-mono text-sm focus:outline-none focus:border-blue-500"
-                  />
-                  
-                  {error && (
-                    <div className="mt-3 p-3 bg-red-900/30 border border-red-500 rounded-lg text-red-400">
-                      {error}
-                    </div>
-                  )}
+                React.createElement('div', { className: "flex gap-3 mt-4" },
+                  React.createElement('button', {
+                    onClick: handleAnalyze,
+                    disabled: loading,
+                    className: "flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                  }, loading ? 'Analyzing...' : 'Analyze Leads'),
+                  React.createElement('button', {
+                    onClick: handleClear,
+                    className: "bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                  }, 'Clear')
+                )
+              ),
 
-                  <div className="flex gap-3 mt-4">
-                    <button
-                      onClick={handleAnalyze}
-                      disabled={loading}
-                      className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
-                    >
-                      {loading ? 'Analyzing...' : 'Analyze Leads'}
-                    </button>
-                    <button
-                      onClick={handleClear}
-                      className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
-                    >
-                      Clear
-                    </button>
-                  </div>
-                </div>
+              results.length > 0 && React.createElement('div', { className: "grid grid-cols-3 gap-4 mb-6" },
+                React.createElement('div', { className: "bg-green-900/30 border border-green-500 rounded-lg p-4" },
+                  React.createElement('div', { className: "text-green-400 font-semibold mb-1" }, 'High Quality'),
+                  React.createElement('div', { className: "text-3xl font-bold text-white" }, highQuality.length)
+                ),
+                React.createElement('div', { className: "bg-yellow-900/30 border border-yellow-500 rounded-lg p-4" },
+                  React.createElement('div', { className: "text-yellow-400 font-semibold mb-1" }, 'Medium Quality'),
+                  React.createElement('div', { className: "text-3xl font-bold text-white" }, mediumQuality.length)
+                ),
+                React.createElement('div', { className: "bg-red-900/30 border border-red-500 rounded-lg p-4" },
+                  React.createElement('div', { className: "text-red-400 font-semibold mb-1" }, 'Low Quality'),
+                  React.createElement('div', { className: "text-3xl font-bold text-white" }, lowQuality.length)
+                )
+              ),
 
-                {results.length > 0 && (
-                  <>
-                    <div className="grid grid-cols-3 gap-4 mb-6">
-                      <div className="bg-green-900/30 border border-green-500 rounded-lg p-4">
-                        <div className="text-green-400 font-semibold mb-1">High Quality</div>
-                        <div className="text-3xl font-bold text-white">{highQuality.length}</div>
-                      </div>
-                      <div className="bg-yellow-900/30 border border-yellow-500 rounded-lg p-4">
-                        <div className="text-yellow-400 font-semibold mb-1">Medium Quality</div>
-                        <div className="text-3xl font-bold text-white">{mediumQuality.length}</div>
-                      </div>
-                      <div className="bg-red-900/30 border border-red-500 rounded-lg p-4">
-                        <div className="text-red-400 font-semibold mb-1">Low Quality</div>
-                        <div className="text-3xl font-bold text-white">{lowQuality.length}</div>
-                      </div>
-                    </div>
+              results.length > 0 && React.createElement('div', { className: "space-y-3" },
+                results.map((result, index) =>
+                  React.createElement('div', {
+                    key: index,
+                    className: "bg-gray-800 border border-gray-700 rounded-lg p-5"
+                  },
+                    React.createElement('div', { className: "mb-3" },
+                      React.createElement('a', {
+                        href: result.instagramUrl,
+                        target: "_blank",
+                        rel: "noopener noreferrer",
+                        className: "text-xl font-bold text-blue-400 hover:text-blue-300"
+                      }, `@${result.username}`),
+                      React.createElement('span', { className: `ml-3 font-bold text-lg ${result.color}` }, result.priority),
+                      React.createElement('div', { className: "text-sm text-gray-400 mt-2" },
+                        `Score: ${result.score} | ${result.quality}`
+                      )
+                    ),
+                    React.createElement('div', { className: "space-y-1" },
+                      result.signals.map((signal, idx) =>
+                        React.createElement('div', {
+                          key: idx,
+                          className: `text-sm ${signal.startsWith('⚠️') ? 'text-yellow-400' : 'text-gray-300'}`
+                        }, `• ${signal}`)
+                      )
+                    ),
+                    React.createElement('div', { className: "mt-4 pt-4 border-t border-gray-700 text-sm" },
+                      result.quality === 'HIGH' && React.createElement('span', { className: "text-green-400 font-semibold" }, '✅ Start warm-up immediately. High priority for DM.'),
+                      result.quality === 'MEDIUM' && React.createElement('span', { className: "text-yellow-400 font-semibold" }, '⚠️ Check profile manually before warm-up.'),
+                      result.quality === 'LOW' && React.createElement('span', { className: "text-red-400 font-semibold" }, '❌ Skip. Focus on higher quality leads.')
+                    )
+                  )
+                )
+              ),
 
-                    <div className="space-y-3">
-                      {results.map((result, index) => (
-                        <div
-                          key={index}
-                          className="bg-gray-800 border border-gray-700 rounded-lg p-5"
-                        >
-                          <div className="flex items-start justify-between mb-3">
-                            <div className="flex-1">
-                              <div className="flex items-center gap-3 mb-2">
-                                
-                                  href={result.instagramUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-xl font-bold text-blue-400 hover:text-blue-300"
-                                >
-                                  @{result.username}
-                                </a>
-                                <span className={`font-bold text-lg ${result.color}`}>
-                                  {result.priority}
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-4 text-sm">
-                                <span className="text-gray-400">
-                                  Score: <span className="text-white font-semibold">{result.score}</span>
-                                </span>
-                                <span className={`font-semibold ${result.color}`}>
-                                  {result.quality}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="space-y-1">
-                            {result.signals.map((signal, idx) => (
-                              <div
-                                key={idx}
-                                className={`text-sm ${signal.startsWith('⚠️') ? 'text-yellow-400' : 'text-gray-300'}`}
-                              >
-                                • {signal}
-                              </div>
-                            ))}
-                          </div>
-
-                          <div className="mt-4 pt-4 border-t border-gray-700">
-                            <div className="text-sm text-gray-400">
-                              {result.quality === 'HIGH' && (
-                                <span className="text-green-400 font-semibold">
-                                  ✅ Recommended Action: Start warm-up immediately. High priority for DM.
-                                </span>
-                              )}
-                              {result.quality === 'MEDIUM' && (
-                                <span className="text-yellow-400 font-semibold">
-                                  ⚠️ Recommended Action: Check profile manually before warm-up.
-                                </span>
-                              )}
-                              {result.quality === 'LOW' && (
-                                <span className="text-red-400 font-semibold">
-                                  ❌ Recommended Action: Skip. Focus on higher quality leads.
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-
-                {results.length === 0 && !loading && (
-                  <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 text-gray-300">
-                    <h3 className="text-white font-semibold mb-3">📋 How to Use:</h3>
-                    <ol className="space-y-2 list-decimal list-inside">
-                      <li>Manually search Instagram hashtags (#dubairealestate, #dubairealtor)</li>
-                      <li>Find profiles that look like agents (check bio, posts, followers)</li>
-                      <li>Copy their usernames (one per line) and paste above</li>
-                      <li>Click "Analyze Leads" to get instant AI qualification</li>
-                      <li>Focus on HIGH quality leads first for warm-up and outreach</li>
-                    </ol>
-                  </div>
-                )}
-              </div>
-            </div>
+              results.length === 0 && !loading && React.createElement('div', { className: "bg-gray-800 border border-gray-700 rounded-lg p-6 text-gray-300" },
+                React.createElement('h3', { className: "text-white font-semibold mb-3" }, '📋 How to Use:'),
+                React.createElement('ol', { className: "space-y-2 list-decimal list-inside" },
+                  React.createElement('li', null, 'Manually search Instagram hashtags (#dubairealestate, #dubairealtor)'),
+                  React.createElement('li', null, 'Find profiles that look like agents'),
+                  React.createElement('li', null, 'Copy their usernames and paste above'),
+                  React.createElement('li', null, 'Click "Analyze Leads" to get instant AI qualification'),
+                  React.createElement('li', null, 'Focus on HIGH quality leads first')
+                )
+              )
+            )
           );
         }
 
-        ReactDOM.render(<InstagramLeadQualifier />, document.getElementById('root'));
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(InstagramLeadQualifier));
     </script>
 </body>
 </html>
